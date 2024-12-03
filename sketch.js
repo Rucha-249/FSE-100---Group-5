@@ -5,7 +5,7 @@ let offsetX, offsetY;  // Offset to track dragging distance
 let circleColor;
 
 function setup() {
-  createCanvas(400, 400);
+  createCanvas(800, 600);
   // Initial position of the circle
   circleX = width / 2;
   circleY = height / 2;
