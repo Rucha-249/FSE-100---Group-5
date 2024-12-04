@@ -1,0 +1,81 @@
+let targetShape;
+let drawnPoints = [];
+let accuracy = 0;
+
+function setup() {
+  createCanvas(800, 600);
+  background(200);
+  strokeWeight(5); // Thinner outline
+
+  // Draw target shape
+  fill("black");
+  rect(100, 100, 200, 200); // Outer rectangle
+  fill("white");
+  rect(110, 110, 180, 180); // Inner rectangle
+
+  // Store shape properties
+  targetShape = {
+    outer: { x: 100, y: 100, width: 200, height: 200 },
+    inner: { x: 110, y: 110, width: 180, height: 180 },
+  };
+}
+
+function mouseDragged() {
+  let point = { x: mouseX, y: mouseY };
+  drawnPoints.push(point);
+
+  let withinOuter = 
+    point.x >= targetShape.outer.x && 
+    point.x <= targetShape.outer.x + targetShape.outer.width &&
+    point.y >= targetShape.outer.y && 
+    point.y <= targetShape.outer.y + targetShape.outer.height;
+
+  let outsideInner = 
+    point.x < targetShape.inner.x || 
+    point.x > targetShape.inner.x + targetShape.inner.width ||
+    point.y < targetShape.inner.y || 
+    point.y > targetShape.inner.y + targetShape.inner.height;
+
+  stroke(withinOuter && outsideInner ? "green" : "red");
+  line(pmouseX, pmouseY, mouseX, mouseY);
+
+  accuracy = calculateAccuracy();
+}
+
+function mouseReleased() {
+  background(200);
+  redrawShape();
+
+  noStroke(); // Ensure no outline around the text
+  fill(0); // Black font
+  textSize(20);
+  textAlign(CENTER, CENTER);
+  text(`Final Accuracy: ${accuracy.toFixed(2)}%`, width / 2, 370); // Adjusted vertical position
+}
+
+function calculateAccuracy() {
+  let correct = drawnPoints.filter(p => {
+    let withinOuter =
+      p.x >= targetShape.outer.x && 
+      p.x <= targetShape.outer.x + targetShape.outer.width &&
+      p.y >= targetShape.outer.y && 
+      p.y <= targetShape.outer.y + targetShape.outer.height;
+
+    let outsideInner = 
+      p.x < targetShape.inner.x || 
+      p.x > targetShape.inner.x + targetShape.inner.width ||
+      p.y < targetShape.inner.y || 
+      p.y > targetShape.inner.y + targetShape.inner.height;
+
+    return withinOuter && outsideInner;
+  });
+
+  return (correct.length / drawnPoints.length) * 100;
+}
+
+function redrawShape() {
+  fill("black");
+  rect(targetShape.outer.x, targetShape.outer.y, targetShape.outer.width, targetShape.outer.height);
+  fill("white");
+  rect(targetShape.inner.x, targetShape.inner.y, targetShape.inner.width, targetShape.inner.height);
+}
