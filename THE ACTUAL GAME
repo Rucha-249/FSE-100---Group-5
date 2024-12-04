@@ -179,7 +179,7 @@ function newScreen(x) { print(x);
   textAlign(LEFT, BOTTOM);
   
   // resets default changed from Trace game
-  strokeWeight(1);
+  strokeWeight(0);
   colorMode(RGB);
   stroke("black");
   fill("black")
