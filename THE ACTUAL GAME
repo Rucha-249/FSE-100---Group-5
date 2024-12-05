@@ -6,7 +6,7 @@ let emotionalGames;
 let Game1;
 let Game2;
 let Game3;
-let appName = 'Torturing The Elderly';
+let appName = 'Stroke Recovery';
 let settings;
 
 
@@ -177,6 +177,7 @@ function newScreen(x) { print(x);
   
   // resets default changed from RGP
   textAlign(LEFT, BOTTOM);
+  startScreen.size(50,AUTO);
   
   // resets default changed from Trace game
   strokeWeight(0);
